@@ -3,8 +3,10 @@ package com.myapp.api;
 import com.myapp.dao.ProductRepository;
 import com.myapp.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -28,10 +30,10 @@ public class ProductRestController {
     }
 
     @PutMapping("/product/{id}")
-    public void edit(@RequestBody Product product, @PathVariable int id) throws Exception{
+    public void edit(@RequestBody Product product, @PathVariable int id) throws ResponseStatusException{
         Product p = productRepository.getOne((long) id);
         if(p==null){
-            throw new Exception("Product not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }else{
             p.setId(id);
             productRepository.save(p);
@@ -53,12 +55,16 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) throws Exception{
-        Product p = productRepository.findById((long) id).get();
-        if(p == null){
-            throw new Exception("Product not found");
-        }else{
-            productRepository.delete(p);
+    public void delete(@PathVariable int id) throws ResponseStatusException{
+        try {
+            Product p = productRepository.findById((long) id).get();
+            if (p == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
+            } else {
+                productRepository.delete(p);
+            }
+        }catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
     }
 }
