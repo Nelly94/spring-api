@@ -52,4 +52,14 @@ public class ProductRestController {
         productRepository.save(p);
         return p;
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) throws Exception{
+        Product p = productRepository.findById((long) id).get();
+        if(p == null){
+            throw new Exception("Product not found");
+        }else{
+            productRepository.delete(p);
+        }
+    }
 }
