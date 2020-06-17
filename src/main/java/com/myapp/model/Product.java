@@ -13,12 +13,16 @@ public class Product implements Serializable {
 
     private String name;
 
+    @ManyToOne
+    private Category category;
+
     public Product(){
 
     }
 
-    public Product(String name) {
+    public Product(String name, Category category) {
         this.name = name;
+        this.category = category;
     }
 
     public long getId() {
@@ -37,11 +41,20 @@ public class Product implements Serializable {
         this.name = name;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", category=" + category +
                 '}';
     }
 }
