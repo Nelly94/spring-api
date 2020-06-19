@@ -1,5 +1,7 @@
 package com.myapp.api;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.myapp.config.JsonPropertyView;
 import com.myapp.dao.ProductRepository;
 import com.myapp.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,26 @@ public class ProductRestController {
     @Autowired
     private ProductRepository productRepository;
 
+    @GetMapping("/basic")
+    @JsonView(JsonPropertyView.Basic.class)
+    public List<Product> getAllBasic(){
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/category")
+    @JsonView(JsonPropertyView.Category.class)
+    public List<Product> getAllWithCategory(){
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/provider")
+    @JsonView(JsonPropertyView.Provider.class)
+    public List<Product> getAllWithProvider(){
+        return productRepository.findAll();
+    }
+
     @GetMapping("")
+    @JsonView(JsonPropertyView.Basic.class)
     public List<Product> getAll(){
         return productRepository.findAll();
     }
@@ -55,6 +76,7 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable int id) throws ResponseStatusException{
         try {
             Product p = productRepository.findById((long) id).get();

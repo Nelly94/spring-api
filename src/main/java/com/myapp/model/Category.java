@@ -1,5 +1,8 @@
 package com.myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.myapp.config.JsonPropertyView;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,8 +12,10 @@ public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(JsonPropertyView.Category.class)
     private long id;
 
+    @JsonView(JsonPropertyView.Category.class)
     private String type;
 
     @OneToMany(mappedBy = "category")

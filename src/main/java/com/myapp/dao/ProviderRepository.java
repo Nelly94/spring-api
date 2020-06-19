@@ -1,11 +1,11 @@
 package com.myapp.dao;
 
-import com.myapp.model.Category;
+import com.myapp.model.Provider;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
-//@RepositoryRestResource(path = "categories")
+//@RepositoryRestResource(path = "providers")
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface ProviderRepository extends JpaRepository<Provider, Long> {
 }
